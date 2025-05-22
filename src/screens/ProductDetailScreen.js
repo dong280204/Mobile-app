@@ -13,7 +13,13 @@ export default function ProductDetailScreen({ route, navigation }) {
         if (!size || !color) {
             Alert.alert('Thông báo', 'Vui lòng chọn kích thước và màu sắc');
         } else {
-            addToCart(product);
+            addToCart({
+                ...product,
+                size: size,
+                color: color,
+                quantity: 1,
+            });
+
             Alert.alert('Thông báo', 'Sản phẩm đã được thêm vào giỏ hàng');
         }
     };
@@ -95,7 +101,7 @@ export default function ProductDetailScreen({ route, navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F5F5F5',
+        backgroundColor: '#DDDDDD',
     },
     imageContainer: {
         alignItems: 'center',

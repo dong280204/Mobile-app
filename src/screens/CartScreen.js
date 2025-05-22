@@ -1,4 +1,3 @@
-// src/screens/CartScreen.js
 import React, { useContext } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { CartContext } from '../context/CartContext';
@@ -12,6 +11,7 @@ export default function CartScreen({ navigation }) {
             <Image source={item.image} style={styles.image} />
             <View style={styles.details}>
                 <Text style={styles.name}>{item.name}</Text>
+                <Text style={styles.info}>Size: {item.size} | Màu: {item.color}</Text>
                 <Text style={styles.price}>Giá: {item.price}</Text>
 
                 {/* Số lượng sản phẩm */}
@@ -56,7 +56,7 @@ export default function CartScreen({ navigation }) {
                 style={styles.backButton}
                 onPress={() => navigation.goBack()} // Quay lại trang trước đó
             >
-                <Text style={styles.backButtonText}>Quay lại</Text>
+                <Text style={styles.backButtonText}>Back</Text>
             </TouchableOpacity>
 
             {cartItems.length === 0 ? (
@@ -70,7 +70,17 @@ export default function CartScreen({ navigation }) {
             )}
 
             {cartItems.length > 0 && (
-                <Text style={styles.total}>Tổng: {calculateTotal()}₫</Text>
+                <View style={styles.totalContainer}>
+                    <Text style={styles.total}>Tổng: {calculateTotal()}₫</Text>
+
+                    {/* Nút thanh toán */}
+                    <TouchableOpacity
+                        style={styles.checkoutButton}
+                        onPress={() => navigation.navigate('PaymentScreen')}  // Điều hướng đến màn hình thanh toán
+                    >
+                        <Text style={styles.checkoutButtonText}>Thanh toán</Text>
+                    </TouchableOpacity>
+                </View>
             )}
         </View>
     );
@@ -79,17 +89,20 @@ export default function CartScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        padding: 40,
+        justifyContent: 'flex-start',
+        backgroundColor: '#DDDDDD',
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
+
     },
     item: {
         flexDirection: 'row',
         marginBottom: 20,
         padding: 10,
-        backgroundColor: '#f9f9f9',
+        backgroundColor: '#CCCCCC',
         borderRadius: 8,
     },
     image: {
@@ -115,7 +128,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     quantityButton: {
-        backgroundColor: '#ccc',
+        backgroundColor: '#BBBBBB',
         padding: 8,
         borderRadius: 4,
         marginHorizontal: 8,
@@ -145,7 +158,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     backButton: {
-        backgroundColor: '#C4DFE6',
+        backgroundColor: '#CCCC66',
         padding: 10,
         borderRadius: 8,
         marginBottom: 20,
@@ -155,4 +168,27 @@ const styles = StyleSheet.create({
         color: '#333',
         textAlign: 'center',
     },
+    totalContainer: {
+        marginTop: 20,
+        paddingVertical: 10,
+        borderTopWidth: 1,
+        borderTopColor: '#ccc',
+    },
+    checkoutButton: {
+        backgroundColor: '#4CAF50',
+        padding: 10,
+        borderRadius: 8,
+        marginTop: 10,
+    },
+    checkoutButtonText: {
+        fontSize: 18,
+        color: '#fff',
+        textAlign: 'center',
+    },
+    info: {
+        fontSize: 14,
+        color: '#555',
+        marginVertical: 4,
+    },
+
 });
